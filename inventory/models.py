@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 
 class Item(models.Model):
@@ -11,8 +14,9 @@ class Item(models.Model):
     po_number = models.CharField(max_length=20)
     warranty_status = models.BooleanField()
     warranty_until = models.DateField()
-    current_owner = models.ForeignKey('Personnel')
-
+    current_owner = models.ForeignKey(User)
+    notes = models.TextField()
+    
     def __unicode__(self):
         return self.serial_number
 
@@ -35,3 +39,6 @@ class Territory(models.Model):
 
     def __unicode__(self):
         return self.territory
+
+
+
