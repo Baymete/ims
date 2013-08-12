@@ -42,12 +42,9 @@ def route_to_user(self, request, queryset):
 
 class ItemAdmin(admin.ModelAdmin):
     actions = [make_warranty, remove_warranty, route_to_user]
-
     def save_model(self, request, obj, form, change):
         obj.user = request.user
         obj.save()
-
-
 
 
 admin.site.register(Item, ItemAdmin)
