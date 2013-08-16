@@ -1,0 +1,8 @@
+Here
+{{ query | unordered_list }}
+<form action="" method="post">
+	{% csrf_token %}
+	{{ form }}
+	<input type="hidden" name="action" value="route_to_user"/>
+	<input type="submit" value="Submit" name="apply" />
+</form>
