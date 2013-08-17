@@ -22,7 +22,8 @@ class ItemAdmin(admin.ModelAdmin):
         queryset.update(warranty_status=False)
     
     def route_to_user(self, request, queryset):
-        if request.method == 'POST':
+        form = None
+        if 'apply' in request.POST:
             form = UsersForm(request.POST)
             if form.is_valid():
                 user = form.cleaned_data['users_form']
@@ -31,9 +32,9 @@ class ItemAdmin(admin.ModelAdmin):
                     item.save()
                 self.message_user(request, "Item routed")
                 return HttpResponseRedirect(request.get_full_path())
-        else:
+        if not form:
             user_list = User.objects.all()
-            form = UsersForm()
+            form = UsersForm(initial={'_selected_action': queryset.values_list('id', flat=True)})
         return render(request, 'users.html', {'query':queryset,
                                                  'form': form})
 
