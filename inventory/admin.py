@@ -8,6 +8,20 @@ from .models import Item, Personnel
 
 
 class ItemAdmin(admin.ModelAdmin):
+    
+    fieldsets = (
+         (None, {'fields': ('serial_number', 'item_number', 'asset_number')}),
+         ('Invoice details', {'fields': ('invoice_date', 'invoice_number', 'po_number'),
+                              'classes': ('collapse',)}),
+         ('Warranty', {'fields':('warranty_status', 'warranty_until')})
+         )
+    
+    list_display = ('serial_number', 'entry_date', 'current_owner', 'notes')
+    list_filter = ['current_owner', 'entry_date']
+    search_fields = ['serial_number', 'item_number', 'asset_number', 'current_owner']
+    date_hierarchy = 'entry_date'
+    
+    
     actions = ['make_warranty', 'remove_warranty', 'route_to_user']
     
     def save_model(self, request, obj, form, change):
