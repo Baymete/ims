@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib import admin
 from inventory.forms import UsersForm
 from django.contrib.auth.models import User
@@ -10,7 +12,7 @@ from .models import Item, Personnel
 class ItemAdmin(admin.ModelAdmin):
     
     fieldsets = (
-         (None, {'fields': ('serial_number', 'item_number', 'asset_number')}),
+         (None, {'fields': ('serial_number', 'item_number', 'asset_number', 'current_owner')}),
          ('Invoice details', {'fields': ('invoice_date', 'invoice_number', 'po_number'),
                               'classes': ('collapse',)}),
          ('Warranty', {'fields':('warranty_status', 'warranty_until')})
@@ -24,9 +26,10 @@ class ItemAdmin(admin.ModelAdmin):
     
     actions = ['make_warranty', 'remove_warranty', 'route_to_user']
     
-    def save_model(self, request, obj, form, change):
-        obj.user = request.user
-        obj.save()
+#     def save_model(self, request, obj, form, change):
+#         obj.user = request.user
+#         obj.save()
+        
         
     def make_warranty(modeladmin, request, queryset):
         queryset.update(warranty_status=True)

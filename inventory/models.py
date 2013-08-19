@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from datetime import datetime
 
 
 class Item(models.Model):
@@ -19,6 +20,12 @@ class Item(models.Model):
     
     def __unicode__(self):
         return self.serial_number
+    
+    def save(self):
+        if self.pk is None:
+            self.entry_date = datetime.today()
+        #self.modified = datetime.today()
+        super(Item, self).save()
 
 
 class Personnel(models.Model):
