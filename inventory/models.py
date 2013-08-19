@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import pre_save
@@ -8,7 +10,7 @@ class Item(models.Model):
     serial_number = models.CharField(max_length=50)
     item_number = models.CharField(max_length=50, blank=True)
     asset_number = models.CharField(max_length=10, blank=True)
-    entry_date = models.DateField() # Add by signal
+    entry_date = models.DateField() # Add by signal or auto date
     invoice_date = models.DateField(null=True, blank=True)
     invoice_number =models.CharField(max_length=20, blank=True)
     po_number = models.CharField(max_length=20, blank=True)
@@ -19,6 +21,12 @@ class Item(models.Model):
     
     def __unicode__(self):
         return self.serial_number
+
+    def save(self):
+        if self.pk is None:
+            self.entry_date = datetime.today()
+        #self.modified = datetime.today()
+        super(Item, self).save()
 
 
 class Personnel(models.Model):
