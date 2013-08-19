@@ -10,7 +10,7 @@ class Item(models.Model):
     serial_number = models.CharField(max_length=50)
     item_number = models.CharField(max_length=50, blank=True)
     asset_number = models.CharField(max_length=10, blank=True)
-    entry_date = models.DateField() # Add by signal or auto date
+    entry_date = models.DateField()
     invoice_date = models.DateField(null=True, blank=True)
     invoice_number =models.CharField(max_length=20, blank=True)
     po_number = models.CharField(max_length=20, blank=True)
@@ -18,6 +18,8 @@ class Item(models.Model):
     warranty_until = models.DateField(null=True, blank=True)
     current_owner = models.ForeignKey(User)
     notes = models.TextField(blank=True)
+    
+    item_type = models.ForeignKey('ItemType', null=True)
     
     def __unicode__(self):
         return self.serial_number
@@ -49,4 +51,86 @@ class Territory(models.Model):
         return self.territory
 
 
+class ItemType(models.Model):
+    item_type = models.CharField(max_length=10)
+    
+    def __unicode__(self):
+        return self.item_type
+    
 
+class ItemManufacturer(models.Model):
+    item_manufacturer = models.CharField(max_length=20)
+    
+    def __unicode__(self):
+        return self.item_manufacturer
+    
+
+class ItemModel(models.Model):
+    item_model = models.CharField(max_length=20)
+    
+    def __unicode__(self):
+        return self.item_model
+    
+
+class OperatingSystem(models.Model):
+    operating_system = models.CharField(max_length=25)
+    
+    def __unicode__(self):
+        return self.operating_system
+    
+
+class StorageCapacity(models.Model):
+    storage_capacity = models.CharField(max_length=25)
+    
+    def __unicode__(self):
+        return self.storage_capacity
+    
+
+class MemoryCapacity(models.Model):
+    memory_capacity = models.CharField(max_length=10)
+    
+    def __unicode__(self):
+        return self.memory_capacity
+    
+
+class Processor(models.Model):
+    processor = models.CharField(max_length=25)
+    
+    def __unicode__(self):
+        return self.processor
+    
+
+class Supplier(models.Model):
+    supplier = models.CharField(max_length=25)
+    
+    def __unicode__(self):
+        return self.supplier
+    
+
+class InternalDepartment(models.Model):
+    internal_department = models.CharField(max_length=25)
+    
+    def __unicode(self):
+        return self.internal_department
+    
+class Station(models.Model):
+    station_name = models.CharField(max_length=25)
+    station_territory = models.ForeignKey(Territory, null=True)
+    station_notes = models.CharField(max_length=100, null=True, blank=True)
+    
+    def __unicode__(self):
+        return self.station_name
+    
+
+class PersonTitle(models.Model):
+    person_title = models.CharField(max_length=50)
+    
+    def __unicode__(self):
+        return self.person_title
+    
+
+class Department(models.Model):
+    department = models.CharField(max_length=50)
+    
+    def __unicode__(self):
+        return self.department
