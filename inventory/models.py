@@ -19,14 +19,14 @@ class Item(models.Model):
     current_owner = models.ForeignKey(User)
     notes = models.TextField(blank=True)
     
-    item_type = models.ForeignKey('ItemType', null=True)
-    item_manufacturer = models.ForeignKey('ItemManufacturer', null=True)
-    item_model = models.ForeignKey('ItemModel', null=True)
-    operating_system = models.ForeignKey('OperatingSystem', null=True)
-    storage_capacity = models.ForeignKey('StorageCapacity', null=True)
-    memory_capacity = models.ForeignKey('MemoryCapacity', null=True)
-    processor = models.ForeignKey('Processor', null=True)
-    supplier = models.ForeignKey('Supplier', null=True)
+    item_type = models.ForeignKey('ItemType', blank=True, null=True)
+    item_manufacturer = models.ForeignKey('ItemManufacturer', blank=True, null=True)
+    item_model = models.ForeignKey('ItemModel', blank=True, null=True)
+    operating_system = models.ForeignKey('OperatingSystem', blank=True, null=True)
+    storage_capacity = models.ForeignKey('StorageCapacity', blank=True, null=True)
+    memory_capacity = models.ForeignKey('MemoryCapacity', blank=True, null=True)
+    processor = models.ForeignKey('Processor', blank=True, null=True)
+    supplier = models.ForeignKey('Supplier', blank=True, null=True)
     
     
     def __unicode__(self):

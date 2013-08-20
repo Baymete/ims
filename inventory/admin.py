@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, render
 from django.http import HttpResponse, HttpResponseRedirect
 
-from .models import Item, Personnel, ItemType
+from .models import Item, Personnel, ItemType, ItemManufacturer, ItemModel, \
+    OperatingSystem, StorageCapacity, MemoryCapacity, Processor, Supplier
 
 
 class ItemAdmin(admin.ModelAdmin):
@@ -13,10 +14,12 @@ class ItemAdmin(admin.ModelAdmin):
          (None, {'fields': ('serial_number', 'item_number', 'asset_number', 'current_owner')}),
          ('Item Details', {'fields': ('item_type','item_manufacturer', 'item_model', 
                                       'operating_system', 'storage_capacity', 'memory_capacity',
-                                      'processor', 'supplier')}),
+                                      'processor', 'supplier'),
+                           'classes': ('collapse',)}),
          ('Invoice details', {'fields': ('invoice_date', 'invoice_number', 'po_number'),
                               'classes': ('collapse',)}),
-         ('Warranty', {'fields':('warranty_status', 'warranty_until')})
+         ('Warranty', {'fields':('warranty_status', 'warranty_until'),
+                       'classes': ('collapse',)})
          )
     
     list_display = ('serial_number', 'entry_date', 'current_owner', 'notes')
@@ -60,3 +63,10 @@ class ItemAdmin(admin.ModelAdmin):
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Personnel)
 admin.site.register(ItemType)
+admin.site.register(ItemManufacturer)
+admin.site.register(ItemModel)
+admin.site.register(OperatingSystem)
+admin.site.register(StorageCapacity)
+admin.site.register(MemoryCapacity)
+admin.site.register(Processor)
+admin.site.register(Supplier)
