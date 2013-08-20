@@ -1,26 +1,29 @@
-from datetime import datetime
-
 from django.contrib import admin
 from inventory.forms import UsersForm
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, render
 from django.http import HttpResponse, HttpResponseRedirect
 
-from .models import Item, Personnel
+from .models import Item, Personnel, ItemType
 
 
 class ItemAdmin(admin.ModelAdmin):
     
     fieldsets = (
          (None, {'fields': ('serial_number', 'item_number', 'asset_number', 'current_owner')}),
+         ('Item Details', {'fields': ('item_type','item_manufacturer', 'item_model', 
+                                      'operating_system', 'storage_capacity', 'memory_capacity',
+                                      'processor', 'supplier')}),
          ('Invoice details', {'fields': ('invoice_date', 'invoice_number', 'po_number'),
                               'classes': ('collapse',)}),
          ('Warranty', {'fields':('warranty_status', 'warranty_until')})
          )
     
     list_display = ('serial_number', 'entry_date', 'current_owner', 'notes')
-    list_filter = ['current_owner', 'entry_date']
-    search_fields = ['serial_number', 'item_number', 'asset_number', 'current_owner']
+    list_filter = ['current_owner', 'entry_date', 'item_type', 'item_manufacturer',
+                   'item_model', 'operating_system', 'storage_capacity', 'memory_capacity',
+                   'processor', 'supplier' ]
+    search_fields = ['serial_number', 'item_number', 'asset_number', 'current_owner__username']
     date_hierarchy = 'entry_date'
     
     
@@ -29,7 +32,6 @@ class ItemAdmin(admin.ModelAdmin):
 #     def save_model(self, request, obj, form, change):
 #         obj.user = request.user
 #         obj.save()
-        
         
     def make_warranty(modeladmin, request, queryset):
         queryset.update(warranty_status=True)
@@ -55,7 +57,6 @@ class ItemAdmin(admin.ModelAdmin):
         return render(request, 'users.html', {'query':queryset,
                                                  'form': form})
 
-
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Personnel)
-
+admin.site.register(ItemType)
