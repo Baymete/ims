@@ -5,7 +5,8 @@ from django.shortcuts import render_to_response, render
 from django.http import HttpResponse, HttpResponseRedirect
 
 from .models import Item, Personnel, ItemType, ItemManufacturer, ItemModel, \
-    OperatingSystem, StorageCapacity, MemoryCapacity, Processor, Supplier
+    OperatingSystem, StorageCapacity, MemoryCapacity, Processor, Supplier, \
+    ItemHistory
 
 
 class ItemAdmin(admin.ModelAdmin):
@@ -28,6 +29,7 @@ class ItemAdmin(admin.ModelAdmin):
                    'processor', 'supplier' ]
     search_fields = ['serial_number', 'item_number', 'asset_number', 'current_owner__username']
     date_hierarchy = 'entry_date'
+    readonly_fields = ('current_owner',)
     
     
     actions = ['make_warranty', 'remove_warranty', 'route_to_user']
@@ -52,7 +54,7 @@ class ItemAdmin(admin.ModelAdmin):
                 for item in queryset:
                     item.current_owner=user
                     item.save()
-                self.message_user(request, "Item routed")
+                self.message_user(request, "Item routed to %s" %(user))
                 return HttpResponseRedirect(request.get_full_path())
         if not form:
             user_list = User.objects.all()
@@ -61,12 +63,13 @@ class ItemAdmin(admin.ModelAdmin):
                                                  'form': form})
 
 admin.site.register(Item, ItemAdmin)
-admin.site.register(Personnel)
-admin.site.register(ItemType)
-admin.site.register(ItemManufacturer)
-admin.site.register(ItemModel)
-admin.site.register(OperatingSystem)
-admin.site.register(StorageCapacity)
-admin.site.register(MemoryCapacity)
-admin.site.register(Processor)
-admin.site.register(Supplier)
+# admin.site.register(Personnel)
+# admin.site.register(ItemType)
+# admin.site.register(ItemManufacturer)
+# admin.site.register(ItemModel)
+# admin.site.register(OperatingSystem)
+# admin.site.register(StorageCapacity)
+# admin.site.register(MemoryCapacity)
+# admin.site.register(Processor)
+# admin.site.register(Supplier)
+admin.site.register(ItemHistory)
