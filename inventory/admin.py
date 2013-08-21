@@ -12,7 +12,8 @@ from .models import Item, Personnel, ItemType, ItemManufacturer, ItemModel, \
 class ItemAdmin(admin.ModelAdmin):
     
     fieldsets = (
-         (None, {'fields': ('serial_number', 'item_number', 'asset_number', 'current_owner')}),
+         (None, {'fields': ('serial_number', 'item_number', 'asset_number', 'current_owner',
+                            'notes')}),
          ('Item Details', {'fields': ('item_type','item_manufacturer', 'item_model', 
                                       'operating_system', 'storage_capacity', 'memory_capacity',
                                       'processor', 'supplier'),
@@ -33,10 +34,19 @@ class ItemAdmin(admin.ModelAdmin):
     
     
     actions = ['make_warranty', 'remove_warranty', 'route_to_user']
-    
-#     def save_model(self, request, obj, form, change):
-#         obj.user = request.user
-#         obj.save()
+
+
+# class ItemHistoryAdmin(admin.ModelAdmin):
+#     
+#     fieldsets = (
+#          (None, {'fields': ('serial_number', 'item_number', 'asset_number', 'current_owner')}),
+#          ('Invoice details', {'fields': ('invoice_date', 'invoice_number', 'po_number')}),
+#          ('Warranty', {'fields':('warranty_status', 'warranty_until')})
+#          )
+#     readonly_fields = ('serial_number', 'item_number', 'asset_number', 'current_owner', 
+#                        'invoice_date', 'invoice_number', 'po_number', 'warranty_status', 
+#                        'warranty_until')
+                                      
         
     def make_warranty(modeladmin, request, queryset):
         queryset.update(warranty_status=True)
@@ -72,4 +82,4 @@ admin.site.register(Item, ItemAdmin)
 # admin.site.register(MemoryCapacity)
 # admin.site.register(Processor)
 # admin.site.register(Supplier)
-admin.site.register(ItemHistory)
+# admin.site.register(ItemHistory)

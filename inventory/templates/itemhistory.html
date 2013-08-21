@@ -1,0 +1,21 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Django administration' %}</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+{% block content %}
+{% if history_log %}
+	<ul>
+	{% for log in history_log %}
+	<li>{{ log.serial_number }} | {{ log.item_number }} | {{ log.asset_number }}</li>
+	{% endfor %}
+	</ul>
+{% else %}
+There is no history for this item.
+{% endif %}
+{% endblock %}
