@@ -53,23 +53,28 @@ class Item(models.Model):
     def save(self):
         if self.pk is None:
             self.entry_date = datetime.today()
+        else:
+            owner = Item.objects.get(serial_number=self.serial_number).current_owner
+            self.current_owner = owner
+#         else:
+#             self.entry_date = self.entry_date
         #self.modified = datetime.today()
         super(Item, self).save()
         
-        #Save item changes to history log
+#         Save item changes to history log
         history = ItemHistory(
-              item = self,
-              serial_number = self.serial_number,
-              item_number = self.item_number,
-              asset_number = self.asset_number,
-              modification_date = datetime.today(),
-              invoice_date = self.invoice_date,
-              invoice_number = self.invoice_number,
-              po_number = self.po_number,
-              warranty_status = self.warranty_status,
-              warranty_until = self.warranty_until,
-              current_owner = self.current_owner,
-              notes = self.notes)
+               item = self,
+               serial_number = self.serial_number,
+               item_number = self.item_number,
+               asset_number = self.asset_number,
+               modification_date = datetime.today(),
+               invoice_date = self.invoice_date,
+               invoice_number = self.invoice_number,
+               po_number = self.po_number,
+               warranty_status = self.warranty_status,
+               warranty_until = self.warranty_until,
+               current_owner = self.current_owner,
+               notes = self.notes)
         history.save()
 
 

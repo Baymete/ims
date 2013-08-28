@@ -1,15 +1,24 @@
 from django.contrib import admin
-from inventory.forms import UsersForm
+from django import forms
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, render
 from django.http import HttpResponse, HttpResponseRedirect
 
+from .forms import UsersForm
 from .models import Item, Personnel, ItemType, ItemManufacturer, ItemModel, \
     OperatingSystem, StorageCapacity, MemoryCapacity, Processor, Supplier, \
     ItemHistory
 
 
+class ItemForm(forms.ModelForm):
+    def clean(self):
+        if self.errors.has_key('current_owner') and self.has_changed():
+            del self.errors['current_owner']
+        return self.cleaned_data
+
+
 class ItemAdmin(admin.ModelAdmin):
+    form = ItemForm
     
     fieldsets = (
          (None, {'fields': ('serial_number', 'item_number', 'asset_number', 'current_owner',
@@ -23,19 +32,24 @@ class ItemAdmin(admin.ModelAdmin):
          ('Warranty', {'fields':('warranty_status', 'warranty_until'),
                        'classes': ('collapse',)})
          )
-    
     list_display = ('serial_number', 'entry_date', 'current_owner', 'notes')
     list_filter = ['current_owner', 'entry_date', 'item_type', 'item_manufacturer',
                    'item_model', 'operating_system', 'storage_capacity', 'memory_capacity',
                    'processor', 'supplier' ]
     search_fields = ['serial_number', 'item_number', 'asset_number', 'current_owner__username']
     date_hierarchy = 'entry_date'
-    readonly_fields = ('current_owner',)
     
     
     actions = ['make_warranty', 'remove_warranty', 'route_to_user']
 
+    def get_readonly_fields(self, request, obj = None):
+        if obj:
+            return ('current_owner,')
+        else:
+            return ()
 
+
+    
 # class ItemHistoryAdmin(admin.ModelAdmin):
 #     
 #     fieldsets = (
@@ -73,13 +87,13 @@ class ItemAdmin(admin.ModelAdmin):
                                                  'form': form})
 
 admin.site.register(Item, ItemAdmin)
-# admin.site.register(Personnel)
-# admin.site.register(ItemType)
-# admin.site.register(ItemManufacturer)
-# admin.site.register(ItemModel)
-# admin.site.register(OperatingSystem)
-# admin.site.register(StorageCapacity)
-# admin.site.register(MemoryCapacity)
-# admin.site.register(Processor)
-# admin.site.register(Supplier)
-# admin.site.register(ItemHistory)
+admin.site.register(Personnel)
+admin.site.register(ItemType)
+admin.site.register(ItemManufacturer)
+admin.site.register(ItemModel)
+admin.site.register(OperatingSystem)
+admin.site.register(StorageCapacity)
+admin.site.register(MemoryCapacity)
+admin.site.register(Processor)
+admin.site.register(Supplier)
+admin.site.register(ItemHistory)
