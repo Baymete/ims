@@ -9,7 +9,13 @@
 
 {% block nav-global %}{% endblock %}
 {% block content %}
-
-{{ users | unordered_list }}
-
+{% if history_log %}
+	<ul>
+	{% for log in history_log %}
+	<li>{{ log.serial_number }} | {{ log.item_number }} | {{ log.asset_number }}</li>
+	{% endfor %}
+	</ul>
+{% else %}
+There is no history for this item.
+{% endif %}
 {% endblock %}
