@@ -53,12 +53,6 @@ class Item(models.Model):
     def save(self):
         if self.pk is None:
             self.entry_date = datetime.today()
-        else:
-            owner = Item.objects.get(serial_number=self.serial_number).current_owner
-            self.current_owner = owner
-#         else:
-#             self.entry_date = self.entry_date
-        #self.modified = datetime.today()
         super(Item, self).save()
         
 #         Save item changes to history log

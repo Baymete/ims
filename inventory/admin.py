@@ -4,17 +4,10 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, render
 from django.http import HttpResponse, HttpResponseRedirect
 
-from .forms import UsersForm
+from .forms import UsersForm, ItemForm
 from .models import Item, Personnel, ItemType, ItemManufacturer, ItemModel, \
     OperatingSystem, StorageCapacity, MemoryCapacity, Processor, Supplier, \
     ItemHistory
-
-
-class ItemForm(forms.ModelForm):
-    def clean(self):
-        if self.errors.has_key('current_owner') and self.has_changed():
-            del self.errors['current_owner']
-        return self.cleaned_data
 
 
 class ItemAdmin(admin.ModelAdmin):
