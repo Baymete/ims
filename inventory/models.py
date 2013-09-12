@@ -96,7 +96,7 @@ class ItemType(models.Model):
     
     def __unicode__(self):
         return self.item_type
-    
+
 
 class ItemManufacturer(models.Model):
     item_manufacturer = models.CharField(max_length=20)

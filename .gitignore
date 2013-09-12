@@ -39,3 +39,5 @@ nosetests.xml
 *.pyc
 *.py~
 
+ims/settings.py
+inventory/migrations
