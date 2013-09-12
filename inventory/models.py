@@ -19,7 +19,7 @@ class ItemHistory(models.Model):
     warranty_until = models.DateField(null=True, blank=True)
     current_owner = models.ForeignKey(User)
     notes = models.TextField(blank=True)
-     
+
     def __unicode__(self):
         return self.item.serial_number
     
@@ -153,6 +153,7 @@ class InternalDepartment(models.Model):
     def __unicode(self):
         return self.internal_department
     
+    
 class Station(models.Model):
     station_name = models.CharField(max_length=25)
     station_territory = models.ForeignKey(Territory, null=True)
@@ -174,24 +175,5 @@ class Department(models.Model):
     
     def __unicode__(self):
         return self.department
-    
 
-# def LogHistory(sender, **kwargs):
-#     post_save.disconnect(LogHistory, sender=Item)
-#     log_item = kwargs['instance']
-#     history = ItemHistory(
-#                   item = log_item,
-#                   serial_number = log_item.serial_number,
-#                   log_item_number = log_item.serial_number,
-#                   asset_number = log_item.asset_number,
-#                   entry_date = datetime.today(),
-#                   invoice_date = log_item.invoice_date,
-#                   invoice_number = log_item.invoice_number,
-#                   po_number = log_item.po_number,
-#                   warranty_status = log_item.warranty_status,
-#                   warranty_until = log_item.warranty_until,
-#                   current_owner = log_item.current_owner,
-#                   notes = log_item.notes)
-#     history.save()
-# post_save.connect(LogHistory, sender=Item)
 

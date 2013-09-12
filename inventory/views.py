@@ -9,3 +9,6 @@ def item_history(request, id):
 def users(request):
     users = User.objects.all()
     return render_to_response('users.html', {'users': users})
+
+def main(request):
+    return render_to_response('main.html')

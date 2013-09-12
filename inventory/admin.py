@@ -32,9 +32,8 @@ class ItemAdmin(admin.ModelAdmin):
 
     search_fields = ['serial_number', 'item_number', 'asset_number', 'current_owner__username']
     date_hierarchy = 'entry_date'
-    
-    
-    actions = ['make_warranty', 'remove_warranty', 'route_to_user']
+
+    actions = ['route_to_user',]
 
     def get_readonly_fields(self, request, obj = None):
         if obj:
@@ -42,20 +41,6 @@ class ItemAdmin(admin.ModelAdmin):
         else:
             return ()
 
-
-    
-# class ItemHistoryAdmin(admin.ModelAdmin):
-#     
-#     fieldsets = (
-#          (None, {'fields': ('serial_number', 'item_number', 'asset_number', 'current_owner')}),
-#          ('Invoice details', {'fields': ('invoice_date', 'invoice_number', 'po_number')}),
-#          ('Warranty', {'fields':('warranty_status', 'warranty_until')})
-#          )
-#     readonly_fields = ('serial_number', 'item_number', 'asset_number', 'current_owner', 
-#                        'invoice_date', 'invoice_number', 'po_number', 'warranty_status', 
-#                        'warranty_until')
-                                      
-        
     def make_warranty(modeladmin, request, queryset):
         queryset.update(warranty_status=True)
     make_warranty.short_description = "Make warranty"

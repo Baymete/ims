@@ -1,0 +1,11 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}
+{% if title %}{{ title }} |{% endif %} {% trans 'IMS site admin' %}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Inventory Management System' %}</h1>
+{% endblock %}
+
+
